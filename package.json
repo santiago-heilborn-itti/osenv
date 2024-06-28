@@ -1,24 +1,29 @@
 {
   "name": "osenv",
   "version": "0.1.5",
-  "main": "osenv.js",
+  "main": "./osenv.ts",
+  "types": "./types.d.ts",
   "directories": {
     "test": "test"
   },
   "dependencies": {
-    "os-homedir": "^1.0.0",
-    "os-tmpdir": "^1.0.0"
+    "os": "^0.1.2"
   },
   "devDependencies": {
-    "tap": "^11.1.0"
+    "@types/node": "20.14.9",
+    "tap": "^20.0.1"
+  },
+  "peerDependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "scripts": {
-    "test": "tap test/*.js",
-    "preversion": "npm test",
-    "postversion": "npm publish",
+    "test": "tap test/*.ts",
+    "preversion": "yarn test",
+    "postversion": "yarn publish",
     "postpublish": "git push origin --all; git push origin --tags"
   },
-  "repository": "https://github.com/npm/osenv",
+  "repository": "https://github.com/santiago-heilborn-itti/osenv",
   "keywords": [
     "environment",
     "variable",
@@ -29,9 +34,13 @@
     "ps1"
   ],
   "author": "Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)",
+  "contributors": [
+    "Hersy"
+  ],
   "license": "ISC",
   "description": "Look up environment settings specific to different operating systems",
   "files": [
-    "osenv.js"
-  ]
+    "osenv.ts"
+  ],
+  "packageManager": "yarn@1.22.22"
 }

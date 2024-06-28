@@ -1,9 +1,11 @@
 language: node_js
 node_js:
-node_js:
-  - "10"
-  - "8"
-  - "6"
-  - "11"
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  - stable
+  - latest
 before_install:
-  - npm install -g npm@latest
+  - npm install -g yarn@1.22.22

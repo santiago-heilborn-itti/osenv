@@ -1,63 +1,64 @@
-# osenv
+# @hersy/osenv
 
 Look up environment settings specific to different operating systems.
+Forked from <a href="https://github.com/npm/osenv">Isaac's official osenv node package repository</a>.
+Now patched and maintained by Santiago "Hersy" Heilborn.
 
 ## Usage
 
-```javascript
-var osenv = require('osenv')
-var path = osenv.path()
-var user = osenv.user()
-// etc.
+```typescript
+const osenv = require('osenv');
+const path = osenv.path();
+const user = osenv.user();
 
-// Some things are not reliably in the env, and have a fallback command:
-var h = osenv.hostname(function (er, hostname) {
-  h = hostname
-})
-// This will still cause it to be memoized, so calling osenv.hostname()
-// is now an immediate operation.
+// For values not reliably set on os's environment a fallback param is provided
+var h;
+osenv.hostname((er, hostname) => {
+  h = hostname;
+});
+// Lookup results like above's are cached, so further calls such as:
+const h = osenv.hostname();
+// will be immediate operations.
 
-// You can always send a cb, which will get called in the nextTick
-// if it's been memoized, or wait for the fallback data if it wasn't
-// found in the environment.
-osenv.hostname(function (er, hostname) {
-  if (er) console.error('error looking up hostname')
-  else console.log('this machine calls itself %s', hostname)
-})
+// Using a callback param will take a single tick if the value is cached.
+// If not, it will request the necessary fallback data to determine the os's env value, and wait for it.
+osenv.hostname((er, hostname) => {
+  if (er) {
+    console.error(`Host system's name not found. ${er}`);
+  } else {
+    console.log(`Host system's name: ${hostname}`);
+  };
+});
 ```
 
 ## osenv.hostname()
 
-The machine name.  Calls `hostname` if not found.
+The machine's name. Calls `hostname` if not found.
 
 ## osenv.user()
 
-The currently logged-in user.  Calls `whoami` if not found.
+The currently logged-in user. Calls `whoami` if not found.
 
 ## osenv.prompt()
 
-Either PS1 on unix, or PROMPT on Windows.
+The primary command interface's startup prompt. Retrieved from `ps1` on Unix, and `prompt` on Windows.
 
 ## osenv.tmpdir()
 
-The place where temporary files should be created.
+The temporary file creation directory.
 
 ## osenv.home()
 
-No place like it.
+The path to the currently logged-in user's home directory.
 
 ## osenv.path()
 
-An array of the places that the operating system will search for
-executables.
+The list of directories from which the system reads it's global executable binaries.
 
 ## osenv.editor() 
 
-Return the executable name of the editor program.  This uses the EDITOR
-and VISUAL environment variables, and falls back to `vi` on Unix, or
-`notepad.exe` on Windows.
+The name of the system's default text editor's executable. Retrieved from either the `EDITOR` or `VISUAL` environment variables. Falls back to `vim` on Unix, and `notepad.exe` on Windows.
 
 ## osenv.shell()
 
-The SHELL on Unix, which Windows calls the ComSpec.  Defaults to 'bash'
-or 'cmd'.
+The name of the system's default command terminal. Retrieved from `SHELL` on Unix, and `ComSpec` on Windows. Falls back to `bash` on Unix, and `cmd` on Windows.
