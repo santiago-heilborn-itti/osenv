@@ -1,24 +1,7 @@
 {
-  "name": "osenv",
-  "version": "0.1.5",
-  "main": "osenv.js",
-  "directories": {
-    "test": "test"
-  },
-  "dependencies": {
-    "os-homedir": "^1.0.0",
-    "os-tmpdir": "^1.0.0"
-  },
-  "devDependencies": {
-    "tap": "^11.1.0"
-  },
-  "scripts": {
-    "test": "tap test/*.js",
-    "preversion": "npm test",
-    "postversion": "npm publish",
-    "postpublish": "git push origin --all; git push origin --tags"
-  },
-  "repository": "https://github.com/npm/osenv",
+  "name": "@hersy/osenv",
+  "version": "0.1.0",
+  "description": "Look up environment settings specific to different operating systems",
   "keywords": [
     "environment",
     "variable",
@@ -28,10 +11,75 @@
     "prompt",
     "ps1"
   ],
-  "author": "Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)",
+  "homepage": "https://github.com/hersy/osenv",
+  "bugs": {
+    "url": "https://github.com/hersy/osenv/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hersy/osenv.git"
+  },
   "license": "ISC",
-  "description": "Look up environment settings specific to different operating systems",
+  "author": "Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)",
+  "contributors": [
+    "Hersy <herciego@gmail.com>"
+  ],
   "files": [
-    "osenv.js"
-  ]
+    "lib",
+    "src"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "source": "src/index.ts",
+  "types": "lib/index.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "scripts": {
+    "build": "yarn clean && tsc -p .",
+    "clean": "rimraf lib",
+    "type-check": "tsc --noEmit",
+    "watch": "tsc -p . --watch",
+    "test": "tap run --allow-incomplete-coverage tests/*.js",
+    "lint": "hplint --lint",
+    "lint-fix": "hplint --fix",
+    "format": "hplint --format",
+    "eslint-check": "hplint --check",
+    "postinstall": "yarn build"
+  },
+  "dependencies": {
+    "os": "^0.1.0"
+  },
+  "devDependencies": {
+    "@hersy/eslint-config-package": "^0.1.0",
+    "@types/node": "^22.7.0",
+    "husky": "^9.1.0",
+    "react-dom": "18.2.0",
+    "tap": "^21.0.0",
+    "typescript": "~5.5.0"
+  },
+  "resolutions": {
+    "@humanwhocodes/config-array": "yarn:@eslint/config-array@^0.17.0",
+    "ansi-regex": "^5.0.1",
+    "glob": "^9.3.0",
+    "react": "18.2.0",
+    "react-reconciler": "~0.28.0",
+    "read-package-json": "yarn:@npmcli/package-json@^5.2.0",
+    "rimraf": "^4.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,ts,md}": [
+      "hplint --format",
+      "git add"
+    ]
+  },
+  "packageManager": "yarn@1.22.22"
 }

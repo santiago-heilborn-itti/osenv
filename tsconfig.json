@@ -1,0 +1,1 @@
+{ "extends": "@hersy/eslint-config-package/tsconfig.base" }
